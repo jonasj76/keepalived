@@ -901,6 +901,7 @@ vrrp_fault(vrrp_t * vrrp)
 	} else
 #endif
 	{
+		vrrp->preempt_time = timer_now();
 		/* Otherwise, we transit to init state */
 		if (vrrp->init_state == VRRP_STATE_BACK) {
 			vrrp->state = VRRP_STATE_BACK;

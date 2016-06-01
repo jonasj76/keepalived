@@ -52,6 +52,12 @@ vrrp_init_instance_sands(vrrp_t * vrrp)
 	 */
 	if (vrrp->state == VRRP_STATE_BACK || vrrp->state == VRRP_STATE_FAULT)
 		vrrp->sands = timer_add_long(time_now, vrrp->ms_down_timer);
+
+	/* Update preempt time when in fault state and not transition to master state */
+	if (vrrp->state     == VRRP_STATE_FAULT &&
+	    vrrp->wantstate != VRRP_STATE_MAST) {
+		vrrp->preempt_time = timer_add_long(timer_now(), vrrp->preempt_delay);
+	}
 }
 
 /* Instance name lookup */
